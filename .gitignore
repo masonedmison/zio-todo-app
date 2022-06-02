@@ -1,0 +1,13 @@
+example.*
+**/target/
+**/.bloop/
+.bsp/
+project/project
+.metals/
+.vscode/
+.history/
+.sbt/
+project/metals.sbt
+/docker/2
+/docker/4
+/docker/Dockerfiles
