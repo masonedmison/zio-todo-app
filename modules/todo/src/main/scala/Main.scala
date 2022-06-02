@@ -57,7 +57,7 @@ object Main extends ZIOAppDefault {
       .scoped {
         runServer(createRoutes)
       }
-      .provide(Scope.default >>> appEnvironment, sl4jLayer)
+      .provide(appEnvironment, sl4jLayer)
   }
 
 }

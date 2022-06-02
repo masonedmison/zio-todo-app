@@ -16,12 +16,12 @@ object Environments {
   val h2DbTransactor: ULayer[Transactor[Task]] =
     Configuration.live >>> MkH2.h2
 
-  val todosRepository: URLayer[Scope, TodoRepository] =
+  val todosRepository: ULayer[TodoRepository] =
     Random.live ++ h2DbTransactor >>> TodoRepositoryLive.live
 
   val httpServerEnvironment: ULayer[HttpServerEnvironment] =
     Configuration.live ++ Clock.live
 
-  val appEnvironment: URLayer[Scope, AppEnvironment] =
+  val appEnvironment: ULayer[AppEnvironment] =
     httpServerEnvironment ++ todosRepository
 }

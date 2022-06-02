@@ -116,11 +116,6 @@ object TodoRepositoryLive {
           completed BOOLEAN NOT NULL  
         )
         """.update
-
-    def deleteTables: Update0 =
-      sql"""
-      DROP TABLE Todos 
-      """.update
   }
 
   private def createTodoTable: ZIO[Transactor[Task], Throwable, Unit] =
@@ -129,14 +124,9 @@ object TodoRepositoryLive {
       _  <- TodoSQL.createTodoTable.run.transact(xa)
     } yield ()
 
-  private def deleteTables: ZIO[Transactor[Task], Throwable, Unit] =
-    for {
-      xa <- ZIO.service[Transactor[Task]]
-      _  <- TodoSQL.deleteTables.run.transact(xa)
-    } yield ()
-
-  val live: URLayer[Random with Transactor[Task] with Scope, TodoRepository] =
-    ZLayer.fromZIO {
+  // Clearing tables just to try a scoped ZLayer
+  val live: URLayer[Random with Transactor[Task], TodoRepository] =
+    ZLayer.scoped {
       for {
         xa   <- ZIO.service[Transactor[Task]]
         rand <- ZIO.service[Random]
@@ -144,8 +134,8 @@ object TodoRepositoryLive {
           ZIO.succeed(TodoRepositoryLive(xa, rand)) <* createTodoTable.orDie.tap(
             _ => ZIO.logInfo("Creating Todo tables.")
           )
-        } { _ =>
-          deleteTables.orDie.tap(_ => ZIO.logInfo("Deleting tables on finalization."))
+        } { td =>
+          td.deleteAll.orDie.tap(_ => ZIO.logInfo("Deleting tables on finalization."))
         }
       } yield todoRepo
     }
