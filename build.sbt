@@ -34,11 +34,13 @@ lazy val todo = (project in file("modules/todo"))
       "org.http4s"     %% "http4s-circe"        % Versions.http4s,
       "ch.qos.logback" % "logback-classic"      % Versions.logback % Runtime,
       "io.circe"       %% "circe-generic"       % Versions.circe,
+      "io.circe"       %% "circe-refined"       % Versions.circe,
       "org.http4s"     %% "http4s-dsl"          % Versions.http4s,
       "is.cir"         %% "ciris"               % Versions.ciris,
       "org.http4s"     %% "http4s-ember-server" % Versions.http4s,
       "org.tpolecat"   %% "doobie-core"         % Versions.doobie,
       "org.tpolecat"   %% "doobie-h2"           % Versions.doobie,
+      "org.tpolecat"   %% "doobie-refined"      % Versions.doobie,
       "dev.zio"        %% "zio-test"            % Versions.zio % Test,
       "dev.zio"        %% "zio-test-sbt"        % Versions.zio % Test
     )

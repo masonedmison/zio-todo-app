@@ -12,6 +12,7 @@ import doobie.util.transactor.Transactor
 import domain._
 import zio.interop.catz._
 import doobie.Fragments.setOpt
+import doobie.refined.implicits._
 
 @accessible
 trait TodoRepository {
